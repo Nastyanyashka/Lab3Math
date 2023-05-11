@@ -4,57 +4,9 @@ namespace MathLab2
 {
     internal class Matrixes
     {
-        //static void Main(string[] args)
-        //{
-        //    //float[,] matrixA ={
-        //    //    { 3f, 5f, 1f,12f},
-        //    //    { 1.799999f, 3f, 7f,13.599998f},
-        //    //    { 8f,1f,1f,18f}};
-
-        //    float[,] matrixA =
-        //  {
-        //       { 10f,4f,3f,4f,12f},
-        //       {4f,12f,-4f,2f,1f },
-        //       {2f,-1f,8f,1f,0f},
-        //       {-1f,1f,3f,0f,4f }
-        //   };
-        //    //float[,] matrixB =
-        //    //{
-        //    //    {15f,0f,1f,16f },  
-        //    //    {4f,15f,1f,20f },
-        //    //    {1f,1f,15f,17f }
-        //    //};
-        //    //float[,] matrixB =
-        //    //{
-        //    //    { 10f,1f,2f,15f},
-        //    //    {-3f,20f,4f,61f },
-        //    //    {5f,6f,30f,53f}
-        //    //};
-        //    float[,] matrixB =
-        //    {
-        //       { 10f,4f,3f,12f},
-        //       {4f,12f,-4f,1f },
-        //       {2f,-1f,8f,0f}
-        //   };
-
-        //    float[,] matrixC =
-        //    {
-        //       {2f,-1f,0f,3f },
-        //       {5f,4f,2f,6f },
-        //       {0f,1f,-3f,2f }
-        //   };
-
-
-        //    //SolutionWithoutChooseOfMainElement(matrixA);
-        //    SolutionWithChooseOfMainElement(matrixA);
-
-        //    //Run_Through_Method(matrixC);
-        //    //Console.WriteLine(matrixA.GetLength(0) + " " + matrixA.GetLength(1));
-        //    //SpecialIterationsMethod(matrixB, 0.000001f); //-6
-        //}
         public Matrixes() { }
 
-        public void Run_Through_Method(float[,] matrix)
+        public float[] Run_Through_Method(float[,] matrix)
         {
             float[] a = new float[matrix.GetLength(1) + 1];
             float[] b = new float[matrix.GetLength(1) + 1];
@@ -68,21 +20,12 @@ namespace MathLab2
 
                 a[i + 1] = matrix[i, i + 1] / (matrix[i, i] - matrix[i, i - 1] * a[i]);
                 b[i + 1] = (matrix[i, matrix.GetLength(1) - 1] - b[i] * matrix[i, i - 1]) / (matrix[i, i] - matrix[i, i - 1] * a[i]);
-
-                //matrix[i + 1, i + 1] = matrix[i + 1, i + 1] - matrix[i + 1, i] * a; 
-                //matrix[i + 1, i] = 0;
             }
             for (int i = matrix.GetLength(1) - 1; i >= 0; i--)
             {
                 solves[i] = b[i + 1] - a[i + 1] * solves[i + 1];
-
-
             }
-            Console.WriteLine();
-            foreach (float i in solves)
-            {
-                Console.Write($" {i}");
-            }
+            return solves;
         }
 
         public float NormOfMatrix(float[,] matrix)

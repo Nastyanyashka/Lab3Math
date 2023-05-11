@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestMathLab4;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Lab3Math
 {
@@ -19,8 +22,8 @@ namespace Lab3Math
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double step = 0.1;
-            double a = -6, b = 6;
+            double step = 0.01;
+            double a = -2, b = 1.5;
             double x = 0, y = 0;
             double[] numsX = new double[] { -2, 0, 2, 3, 4 };
             double[] numsY = new double[] { 18, 12, 7, -1, 0 };
@@ -76,6 +79,37 @@ namespace Lab3Math
                     y = The_Equation(4, coefficients, x);
                     chart1.Series[0].Points.AddXY(x, y);
                     x += step;
+                }
+            }
+            if(SplineButton.Checked)
+            {
+                float[] numsFloatX = new float[] { -2, 0, 2, 3, 4 };
+                //{ -2, 0, 2, 3, 4 };{ 0,1,2,3,4};
+                float[] numsFloatY = new float[] { 18, 12, 7, -1, 0 };
+                //{ 18, 12, 7, -1, 0 };{1,3,1,4,2 }; 
+                CubeSpline solver = new CubeSpline(numsFloatX,numsFloatY);
+                float[,] coefficients = solver.GetCoefficients();
+                x = numsFloatX[0];
+                b = numsFloatX[numsX.Length-1];
+                int counter = 1;
+                double[] tempCoefficients = new double[numsX.Length-1];
+                for(int i = 0;i<coefficients.GetLength(1);i++)
+                {
+                    tempCoefficients[i] = coefficients[0,i];
+                }
+                while (x <= b)
+                {
+                    y = The_Equation(3, tempCoefficients, x);
+                    chart1.Series[0].Points.AddXY(x, y);
+                    x += step;
+                    if (x >= numsFloatX[counter]&& counter<numsX.Length-1)
+                    {
+                        for (int i = 0; i < coefficients.GetLength(1); i++)
+                        {
+                            tempCoefficients[i] = coefficients[counter, i];
+                        }
+                        counter++;
+                    }
                 }
             }
         }
